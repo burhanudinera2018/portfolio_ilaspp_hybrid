@@ -200,10 +200,10 @@ streamlit run streamlit_app.py
 *Data Analyst | Spatial Analytics Enthusiast*
 
 <p align="left">
-  <a href="https://github.com/burhanudinera2018">
+  <a href="https://github.com/burhanudinera2018" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/GitHub-Follow-181717?style=flat-square&logo=github" alt="GitHub">
   </a>
-  <a href="[https://linkedin.com/in/burhanudin](https://www.linkedin.com/in/burhanudin-badiuzaman4a9204161/)">
+  <a href="https://www.linkedin.com/in/burhanudin-badiuzaman-4a9204161/" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin" alt="LinkedIn">
   </a>
 </p>
