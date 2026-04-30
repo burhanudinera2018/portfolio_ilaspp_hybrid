@@ -1,6 +1,14 @@
 ```markdown
 # 🗺️ ILASPP - Sistem Informasi Nilai Tanah Spasial Prediktif
 
+<!-- BADGES -->
+[![GitHub repo](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/burhanudin/portfolio_ilaspp_hybrid)
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red.svg)](https://streamlit.io)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![R 4.5](https://img.shields.io/badge/R-4.5-blue.svg)](https://www.r-project.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue.svg)](https://www.postgresql.org/)
+
 **Hybrid R + Python | GWR + Kriging | Streamlit Dashboard**
 
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
@@ -126,7 +134,7 @@ Akses dashboard di: `http://localhost:8501`
 
 ---
 
-## 👤 **Author**
+## 👤 **Burhanudin Badiuzaman**
 
 **Data Analyst** - ILASPP Project Portfolio  
 *Project ini dikembangkan sebagai portfolio untuk posisi Data Analyst di ATR/BPN*
