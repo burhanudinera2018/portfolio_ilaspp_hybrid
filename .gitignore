@@ -1,0 +1,93 @@
+# ============================================
+# IGNORE SEMUA FILE YANG TIDAK PERLU DI UPLOAD
+# ============================================
+
+# File PDF besar (jangan upload ke GitHub)
+*.pdf
+*.PDF
+13_10.pdf
+ATR_BPN_Project.pdf
+MC_use_of_geog.pdf
+MC_use of geog.pdf
+
+# File Jupyter Notebook checkpoint & file besar
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+*.ipynb
+portfolio_ilaspp_hybrid_analysis.ipynb
+Solusi_Problem.ipynb
+ATR_BPN_Project.ipynb
+
+# File sistem Mac
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# File R history dan data
+.RData
+.Rhistory
+.Rapp.history
+
+# File gambar besar (opsional - jika mau upload, hapus baris ini)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.heic
+images_atr/
+
+# Folder output (hasil analisis boleh upload, tapi gambar besar diabaikan)
+R_version/output/*.png
+Python_version/output/*.png
+
+# Virtual environment
+venv/
+env/
+.venv/
+venv_*/
+__pycache__/
+*.pyc
+
+# Environment variables (jangan upload password asli)
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+*.out
+
+# IDE settings
+.vscode/
+.idea/
+*.sublime-*
+
+# Database dumps
+*.sql
+*.dump
+*.backup
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ============================================
+# FILE YANG BOLEH DI UPLOAD (SECARA DEFAULT)
+# ============================================
+# - README.md
+# - requirements.txt
+# - .gitignore (file ini sendiri)
+# - .env.example (contoh, tanpa password)
+# - Semua file .py, .R, .Rmd, .sql
+# - Semua file .csv (kecil)
+# - Folder data/processed/*.csv
+# - R_version/output/*.csv
