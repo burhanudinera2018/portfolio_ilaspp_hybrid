@@ -120,7 +120,6 @@ if page == "📊 Dashboard Utama":
             st.dataframe(df)
     else:
         st.error("⚠️ Data tidak ditemukan")
-        st.info("Pastikan file land_values_clean.csv ada di folder yang sama")
 
 # ============================================
 # PAGE 2: GWR RESULTS
@@ -215,7 +214,22 @@ elif page == "📈 Perbandingan":
         """)
 
 # ============================================
-# FOOTER
+# FOOTER - COPYRIGHT & IDENTITAS PEMBUAT
 # ============================================
 st.markdown("---")
-st.caption("🗺️ ILASPP Hybrid Portfolio | R + Python | GWR + Kriging | ATR/BPN")
+st.markdown(
+    """
+    <div style="text-align: center; padding: 20px 0 10px 0; color: #666666;">
+        <p>© 2026 Burhanudin Badiuzaman | Data Scientist & AI Engineer</p>
+        <p style="font-size: 12px; margin-top: 5px;">
+            Dibangun untuk ILASPP - ATR/BPN | 
+            <a href="https://github.com/burhanudinera2018" target="_blank" style="color: #2563eb; text-decoration: none;">GitHub</a> | 
+            <a href="https://www.linkedin.com/in/burhanudin-badiuzaman-4a9204161/" target="_blank" style="color: #2563eb; text-decoration: none;">LinkedIn</a>
+        </p>
+        <p style="font-size: 11px; margin-top: 5px;">
+            Hybrid R + Python | GWR + Kriging | PostgreSQL + PostGIS
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
