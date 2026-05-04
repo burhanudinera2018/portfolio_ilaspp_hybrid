@@ -33,6 +33,7 @@ with st.sidebar:
             "📊 Dashboard Utama",
             "🗺️ GWR Results",
             "🌐 Kriging Results",
+            "🗺️ Peta Dominasi Variabel",
             "📈 Perbandingan & Interpretasi"
         ]
     )
@@ -62,6 +63,10 @@ def load_data():
 def load_gwr_results():
     try:
         df = pd.read_csv(gwr_path)
+        # Hitung variabel dominan jika belum ada
+        if 'dominant_variable' not in df.columns:
+            coeff_abs = abs(df[['distance_center', 'road_width']])
+            df['dominant_variable'] = coeff_abs.idxmax(axis=1)
         return df
     except Exception as e:
         return None
@@ -101,7 +106,7 @@ if page == "📊 Dashboard Utama":
         with col4:
             st.metric("📉 Nilai Terendah", f"{df['land_value'].min():.1f} juta/m²")
         
-        # Map
+        # Map - menggunakan scatter_mapbox untuk peta yang lebih baik
         st.subheader("🗺️ Peta Distribusi Nilai Tanah")
         fig = px.scatter_mapbox(
             df, lat='latitude', lon='longitude',
@@ -203,16 +208,13 @@ elif page == "🗺️ GWR Results":
         # Dominant Variable
         st.subheader("🎯 Variabel Dominan per Lokasi")
         
-        coeff_abs = abs(gwr_df[['distance_center', 'road_width']])
-        dominant = coeff_abs.idxmax(axis=1)
-        dom_counts = dominant.value_counts()
-        
-        fig3 = px.pie(values=dom_counts.values, names=dom_counts.index,
+        fig3 = px.pie(values=gwr_df['dominant_variable'].value_counts().values, 
+                      names=gwr_df['dominant_variable'].value_counts().index,
                       title='Proporsi Variabel Dominan',
-                      color_discrete_sequence=['blue', 'green'])
+                      color_discrete_sequence=['#E53935', '#43A047'])
         st.plotly_chart(fig3, use_container_width=True)
         
-        # Show images (FIXED: removed use_container_width)
+        # Show images
         st.subheader("🗺️ Visualisasi GWR")
         img_col1, img_col2 = st.columns(2)
         
@@ -273,7 +275,7 @@ elif page == "🌐 Kriging Results":
                            color_discrete_sequence=['orange'])
         st.plotly_chart(fig2, use_container_width=True)
         
-        # Show images (FIXED: removed use_container_width)
+        # Show images
         st.subheader("🗺️ Visualisasi Kriging")
         
         img_col1, img_col2, img_col3 = st.columns(3)
@@ -304,7 +306,144 @@ elif page == "🌐 Kriging Results":
         st.info(f"Mencari file di: {os.path.abspath(kriging_path)}")
 
 # ============================================
-# PAGE 4: PERBANDINGAN & INTERPRETASI
+# PAGE 4: PETA DOMINASI VARIABEL
+# ============================================
+elif page == "🗺️ Peta Dominasi Variabel":
+    st.title("🗺️ Peta Dominasi Variabel")
+    st.markdown("*Wilayah mana yang didominasi oleh jarak ke pusat kota vs lebar jalan?*")
+    st.markdown("---")
+    
+    if gwr_df is not None and len(gwr_df) > 0:
+        if 'latitude' not in gwr_df.columns or 'longitude' not in gwr_df.columns:
+            st.error("Koordinat tidak ditemukan dalam data GWR")
+        else:
+            # ============ MAP 1: DOMINANT VARIABLE MAP ============
+            st.subheader("📍 Peta Dominasi Variabel per Lokasi")
+            
+            fig1 = px.scatter_geo(
+                gwr_df,
+                lat='latitude',
+                lon='longitude',
+                color='dominant_variable',
+                size='Local_R2' if 'Local_R2' in gwr_df.columns else 8,
+                hover_name='district' if 'district' in gwr_df.columns else gwr_df.index.astype(str),
+                hover_data={
+                    'distance_center': ':.4f',
+                    'road_width': ':.4f',
+                    'Local_R2': ':.4f'
+                },
+                color_discrete_map={
+                    'distance_center': '#E53935',
+                    'road_width': '#43A047'
+                },
+                title='<b>Faktor Dominan Nilai Tanah per Lokasi</b><br><span style="font-size:12px">🔴 Merah = Didominasi Jarak ke Pusat | 🟢 Hijau = Didominasi Lebar Jalan</span>',
+                projection='mercator'
+            )
+            fig1.update_geos(
+                showland=True, 
+                landcolor='lightgray', 
+                showocean=True, 
+                oceancolor='lightblue',
+                showcountries=True,
+                countrycolor='gray'
+            )
+            fig1.update_layout(height=550, margin={"r":0, "t":50, "l":0, "b":0})
+            st.plotly_chart(fig1, use_container_width=True)
+            
+            # ============ MAP 2 & 3: COEFFICIENT MAPS ============
+            st.subheader("📊 Besaran Pengaruh Variabel per Lokasi")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                fig2 = px.scatter_geo(
+                    gwr_df,
+                    lat='latitude',
+                    lon='longitude',
+                    color='distance_center',
+                    size='Local_R2' if 'Local_R2' in gwr_df.columns else 8,
+                    hover_name='district' if 'district' in gwr_df.columns else gwr_df.index.astype(str),
+                    color_continuous_scale='RdBu_r',
+                    title='<b>Koefisien Distance Center</b><br><span style="font-size:12px">🔴 Negatif = semakin jauh semakin murah<br>🔵 Positif = semakin jauh semakin mahal</span>',
+                    projection='mercator'
+                )
+                fig2.update_geos(showland=True, landcolor='lightgray')
+                fig2.update_layout(height=450, margin={"r":0, "t":50, "l":0, "b":0})
+                st.plotly_chart(fig2, use_container_width=True)
+            
+            with col2:
+                fig3 = px.scatter_geo(
+                    gwr_df,
+                    lat='latitude',
+                    lon='longitude',
+                    color='road_width',
+                    size='Local_R2' if 'Local_R2' in gwr_df.columns else 8,
+                    hover_name='district' if 'district' in gwr_df.columns else gwr_df.index.astype(str),
+                    color_continuous_scale='RdYlGn',
+                    title='<b>Koefisien Road Width</b><br><span style="font-size:12px">🟢 Positif = semakin lebar semakin mahal<br>🔴 Negatif = semakin lebar semakin murah</span>',
+                    projection='mercator'
+                )
+                fig3.update_geos(showland=True, landcolor='lightgray')
+                fig3.update_layout(height=450, margin={"r":0, "t":50, "l":0, "b":0})
+                st.plotly_chart(fig3, use_container_width=True)
+            
+            # ============ SUMMARY TABLE ============
+            st.subheader("📋 Ringkasan per Kecamatan")
+            
+            if 'district' in gwr_df.columns:
+                summary_df = gwr_df.groupby('district').agg({
+                    'distance_center': 'mean',
+                    'road_width': 'mean',
+                    'Local_R2': 'mean'
+                }).round(4).reset_index()
+                
+                dominant_summary = gwr_df.groupby('district')['dominant_variable'].agg(
+                    lambda x: x.value_counts().index[0] if len(x) > 0 else 'N/A'
+                ).reset_index()
+                dominant_summary.columns = ['district', 'dominant_majority']
+                
+                summary_df = summary_df.merge(dominant_summary, on='district')
+                summary_df.columns = ['Kecamatan', 'Rata-rata Koef Jarak', 'Rata-rata Koef Lebar Jalan', 'Mean Local R²', 'Variabel Dominan']
+                
+                st.dataframe(summary_df, use_container_width=True)
+                
+                csv = summary_df.to_csv(index=False)
+                st.download_button(
+                    label="📥 Download Ringkasan (CSV)",
+                    data=csv,
+                    file_name="gwr_dominant_variable_summary.csv",
+                    mime="text/csv"
+                )
+            else:
+                st.info("Data kecamatan tidak tersedia untuk ditampilkan dalam tabel")
+            
+            # ============ INSIGHT ============
+            st.markdown("---")
+            st.subheader("💡 Insight dari Peta Dominasi")
+            
+            dom_counts = gwr_df['dominant_variable'].value_counts()
+            pct_distance = dom_counts.get('distance_center', 0) / len(gwr_df) * 100
+            pct_road = dom_counts.get('road_width', 0) / len(gwr_df) * 100
+            
+            st.markdown(f"""
+            <div style="background-color: #f0f2f6; padding: 15px; border-radius: 10px;">
+                <p style="font-size: 16px; font-weight: bold;">📈 Hasil GWR menunjukkan:</p>
+                <ul>
+                    <li><span style="color: #E53935;">🔴 <b>{pct_distance:.1f}% lokasi</b></span> didominasi oleh <b>JARAK KE PUSAT KOTA</b></li>
+                    <li><span style="color: #43A047;">🟢 <b>{pct_road:.1f}% lokasi</b></span> didominasi oleh <b>LEBAR JALAN</b></li>
+                </ul>
+                <p><b>💡 Interpretasi untuk Kebijakan:</b></p>
+                <ul>
+                    <li><b>Daerah dominasi jarak</b> → Fokus pada <b>aksesibilitas ke pusat bisnis</b></li>
+                    <li><b>Daerah dominasi lebar jalan</b> → Prioritaskan <b>infrastruktur jalan</b></li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+            
+    else:
+        st.warning("⚠️ GWR results not found. Run: cd R_version && Rscript 02_gwr_analysis_fixed.R")
+
+# ============================================
+# PAGE 5: PERBANDINGAN & INTERPRETASI
 # ============================================
 elif page == "📈 Perbandingan & Interpretasi":
     st.title("📈 Perbandingan GWR vs Kriging")
