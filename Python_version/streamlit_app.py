@@ -562,4 +562,4 @@ elif page == "📈 Perbandingan & Interpretasi":
 # FOOTER
 # ============================================
 st.markdown("---")
-st.caption("🗺️ ILASPP Hybrid Portfolio | R + Python | GWR + Kriging | ATR/BPN")
+st.caption("🗺️ ILASPP Hybrid Portfolio | R + Python | GWR + Kriging | ATR/BPN") 
