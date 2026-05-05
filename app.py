@@ -577,7 +577,7 @@ st.markdown(
         </p>
         <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
             <a href="https://www.linkedin.com/in/burhanudin-badiuzaman4a9204161/" target="_blank" style="text-decoration: none; font-size: 13px; color: #0077b5;">🔗 LinkedIn</a>
-            <a href="https://github.com/burhanudinera2018" target="_blank" style="text-decoration: none; font-size: 13px; color: #333;">🐙 GitHub</a>
+            <a href="https://github.com/burhanudinera2018/portfolio_ilaspp_hybrid" target="_blank" style="text-decoration: none; font-size: 13px; color: #333;">🐙 GitHub</a>
             <a href="mailto:burhanudinera2018@gmail.com" style="text-decoration: none; font-size: 13px; color: #ea4335;">📧 Email</a>
         </div>
     </div>
