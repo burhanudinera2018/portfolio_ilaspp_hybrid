@@ -1,0 +1,32 @@
+{
+  "Model": "Regresi Linear Spasial",
+  "R_squared": 0.866096162420834,
+  "RMSE": 2708.3960914313807,
+  "Intercept": -18412.881883574923,
+  "Variables": [
+    "rumah_layak_huni",
+    "ketahanan_bangunan",
+    "luas_lantai_7_2",
+    "akses_air_minum",
+    "akses_sanitasi",
+    "cuci_tangan",
+    "status_milik_sendiri",
+    "status_kontrak_sewa",
+    "listrik_pln",
+    "latitude",
+    "longitude"
+  ],
+  "Coefficients": [
+    -8667.489275497333,
+    6969.02905630346,
+    798.6555045709683,
+    4350.4851201842175,
+    3541.1012111430596,
+    193.46031422660144,
+    1625.983576646565,
+    8160.550685779669,
+    -781.6709025129828,
+    -305.83317436332754,
+    216.0441907125769
+  ]
+}
