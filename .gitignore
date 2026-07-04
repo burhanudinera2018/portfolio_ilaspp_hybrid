@@ -90,4 +90,4 @@ htmlcov/
 # - Semua file .py, .R, .Rmd, .sql
 # - Semua file .csv (kecil)
 # - Folder data/processed/*.csv
-# - R_version/output/*.csv
+# - R_version/output/*.csvdata/geojson/kabupaten_indonesia.geojson
